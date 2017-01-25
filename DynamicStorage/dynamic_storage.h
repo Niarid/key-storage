@@ -17,7 +17,7 @@ public:
     virtual Value *readItem(Key *key);
     virtual void removeItem(Key *key);
     virtual void clear();
-    virtual bool keyExists(Key *key) = 0;
+    virtual bool keyExists(Key *key, int &index) = 0;
 private:
     QList<KeyValuePair> storage;
 };

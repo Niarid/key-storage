@@ -7,8 +7,13 @@ DynamicStorage::DynamicStorage()
 
 void DynamicStorage::writeItem(Key *key, Value *val)
 {
-    if (keyExists(key))
-        return; //add execption
+    int index = -1;
+    if (keyExists(key, index))
+    {
+        //need warning here
+        storage[index].second = ByteArrayValue(val);
+        return;
+    }
 
     StringKey strKey(key);
     ByteArrayValue baVal(val);
@@ -49,14 +54,18 @@ void DynamicStorage::clear()
     storage.clear();
 }
 
-bool DynamicStorage::keyExists(Key *key)
+bool DynamicStorage::keyExists(Key *key, int &index)
 {
     StringKey strKey(key);
 
-    foreach (KeyValuePair p, storage)
+    for (int i = 0; i < storage.size(); i++)
     {
-        if (p.first == strKey)
+        if (storage[i].first == strKey)
+        {
+            index = i;
             return true;
+        }
     }
+    index = -1;
     return false;
 }
